@@ -7,7 +7,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['icons/icon-192.png', 'icons/icon-512.png'],
+      includeAssets: ['icons/favicon.png', 'icons/icon-192.png', 'icons/icon-512.png'],
       manifest: {
         name: 'Serie A Dashboard',
         short_name: 'Serie A',
@@ -17,6 +17,11 @@ export default defineConfig({
         display: 'standalone',
         start_url: '/',
         icons: [
+          {
+            src: '/icons/favicon.png',
+            sizes: '512x512',
+            type: 'image/png',
+          },
           {
             src: '/icons/icon-192.png',
             sizes: '192x192',
