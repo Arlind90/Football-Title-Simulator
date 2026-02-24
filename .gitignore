@@ -1,5 +1,17 @@
-# API key — never commit the real config
+# Environment — never commit real secrets
+.env
+.env.local
+.env.*.local
+
+# Legacy static config (no longer used)
 config.js
+
+# Vite build output
+dist/
+dist-ssr/
+
+# Dependencies
+node_modules/
 
 # macOS
 .DS_Store
@@ -7,3 +19,4 @@ config.js
 # Editor
 .vscode/
 .idea/
+node_modules
