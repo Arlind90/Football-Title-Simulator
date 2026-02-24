@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Serie A Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="header-brand">
+        <img src="https://media.api-sports.io/football/leagues/135.png" alt="Serie A" class="league-logo" />
+        <div>
+          <h1>Serie A</h1>
+          <span class="season-label">2025 Season</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- Standings -->
+    <section class="section" id="standings-section">
+      <h2 class="section-title">Current Standings</h2>
+      <div id="standings-loading" class="loading-state">
+        <div class="spinner"></div>
+        <span>Loading standings…</span>
+      </div>
+      <div id="standings-error" class="error-state hidden"></div>
+      <div class="table-wrapper hidden" id="standings-table-wrapper">
+        <table class="standings-table" id="standings-table">
+          <thead>
+            <tr>
+              <th class="col-rank">#</th>
+              <th class="col-team">Team</th>
+              <th class="col-num" title="Matches Played">MP</th>
+              <th class="col-num" title="Wins">W</th>
+              <th class="col-num" title="Draws">D</th>
+              <th class="col-num" title="Losses">L</th>
+              <th class="col-num" title="Goals For">GF</th>
+              <th class="col-num" title="Goals Against">GA</th>
+              <th class="col-num" title="Goal Difference">GD</th>
+              <th class="col-num col-pts" title="Points">Pts</th>
+              <th class="col-form">Form</th>
+            </tr>
+          </thead>
+          <tbody id="standings-body"></tbody>
+        </table>
+      </div>
+      <div id="champion-calc" class="champion-calc hidden"></div>
+    </section>
+
+    <!-- Upcoming Fixtures -->
+    <section class="section" id="fixtures-section">
+      <h2 class="section-title">Upcoming Fixtures</h2>
+      <div id="fixtures-loading" class="loading-state">
+        <div class="spinner"></div>
+        <span>Loading fixtures…</span>
+      </div>
+      <div id="fixtures-error" class="error-state hidden"></div>
+      <div id="fixtures-container" class="hidden"></div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>Data provided by <a href="https://www.thesportsdb.com" target="_blank" rel="noopener">TheSportsDB</a></p>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
