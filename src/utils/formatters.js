@@ -1,14 +1,24 @@
+function toUtcDate(isoString) {
+  const utc = isoString.replace(' ', 'T').replace(/Z?$/, 'Z');
+  return new Date(utc);
+}
+
 export function formatDateTime(isoString) {
   if (!isoString) return '—';
-  const d = new Date(isoString);
-  return d.toLocaleDateString(undefined, {
+  const d = toUtcDate(isoString);
+  return d.toLocaleDateString('en-GB', {
+    timeZone: 'Europe/Paris',
     weekday: 'short', day: 'numeric', month: 'short',
-  }) + ' · ' + d.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
+  }) + ' · ' + d.toLocaleTimeString('en-GB', {
+    timeZone: 'Europe/Paris',
+    hour: '2-digit', minute: '2-digit',
+  });
 }
 
 export function formatDate(isoString) {
   if (!isoString) return '—';
-  return new Date(isoString).toLocaleDateString(undefined, {
+  return toUtcDate(isoString).toLocaleDateString('en-GB', {
+    timeZone: 'Europe/Paris',
     weekday: 'short', day: 'numeric', month: 'short',
   });
 }

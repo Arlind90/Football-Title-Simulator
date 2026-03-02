@@ -9,9 +9,9 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['icons/favicon.png', 'icons/icon-192.png', 'icons/icon-512.png'],
       manifest: {
-        name: 'Serie A Dashboard',
-        short_name: 'Serie A',
-        description: 'Serie A standings, upcoming fixtures, and title race calculator.',
+        name: 'Title Race Simulator',
+        short_name: 'Title Race',
+        description: 'Football standings, upcoming fixtures, and title race calculator for top European leagues.',
         theme_color: '#1a1a2e',
         background_color: '#f5f7fa',
         display: 'standalone',

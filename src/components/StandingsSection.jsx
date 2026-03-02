@@ -5,9 +5,9 @@ import { calculateTitle } from '../utils/calculator';
 import StandingsTable from './StandingsTable';
 import ChampionCalc from './ChampionCalc';
 
-export default function StandingsSection() {
-  const { data: standings, loading, error } = useStandings();
-  const { data: seasonFixtures, loading: seasonLoading } = useSeasonFixtures();
+export default function StandingsSection({ league }) {
+  const { data: standings, loading, error } = useStandings({ leagueId: league.id, season: league.season });
+  const { data: seasonFixtures, loading: seasonLoading } = useSeasonFixtures({ leagueId: league.id, season: league.season });
   const [selectedTeamId, setSelectedTeamId] = useState(null);
   const calcRef = useRef(null);
 
@@ -24,6 +24,11 @@ export default function StandingsSection() {
       calcRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
   }, [selectedTeamId]);
+
+  // Reset selection when league changes
+  useEffect(() => {
+    setSelectedTeamId(null);
+  }, [league.id]);
 
   const selected = standings.find(t => t.idTeam === selectedTeamId) || null;
   const result   = selected && !seasonLoading && seasonFixtures.length > 0
@@ -49,6 +54,11 @@ export default function StandingsSection() {
 
       {!loading && !error && (
         <>
+          <div className="how-to-banner">
+            <span className="how-to-icon">ℹ</span>
+            <span>Click any team in the table to open the <strong>Title Race Calculator</strong> — it shows the team&apos;s maximum possible points and what the closest rival needs to drop for that team to win.</span>
+          </div>
+
           <StandingsTable
             standings={standings}
             selectedTeamId={selectedTeamId}

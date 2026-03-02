@@ -1,8 +1,8 @@
 import { useFixtures } from '../hooks/useFixtures';
 import FixtureCard from './FixtureCard';
 
-export default function FixturesSection() {
-  const { data: fixtures, loading, error } = useFixtures();
+export default function FixturesSection({ league }) {
+  const { data: fixtures, loading, error } = useFixtures({ leagueId: league.id });
 
   const rounds = new Map();
   fixtures.forEach(f => {

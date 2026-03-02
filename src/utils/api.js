@@ -2,9 +2,6 @@ const API_KEY = import.meta.env.VITE_API_KEY || '';
 const BASE_V1 = `https://www.thesportsdb.com/api/v1/json/${API_KEY}`;
 const BASE_V2 = 'https://www.thesportsdb.com/api/v2/json';
 
-export const LEAGUE_ID = 4332;
-export const SEASON = '2025-2026';
-
 export async function apiFetchV1(path) {
   const res = await fetch(`${BASE_V1}${path}`);
   if (!res.ok) throw new Error(`HTTP ${res.status}`);

@@ -81,6 +81,116 @@ a:hover { text-decoration: underline; }
   text-transform: uppercase;
 }
 
+/* ── Header back link ─────────────────────────────────────── */
+.header-back {
+  color: rgba(255,255,255,.7);
+  font-size: .8rem;
+  font-weight: 500;
+  letter-spacing: .3px;
+  white-space: nowrap;
+  transition: color .15s;
+  text-decoration: none;
+}
+.header-back:hover {
+  color: #fff;
+  text-decoration: none;
+}
+
+/* ── League Hero List (HomePage) ──────────────────────────── */
+.league-hero-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.league-hero-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  min-height: 88px;
+  padding: 20px 28px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid transparent;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  text-decoration: none;
+  color: var(--text);
+  transition: border-left-color .18s, background .18s, transform .14s, box-shadow .18s;
+}
+.league-hero-row:hover {
+  border-left-color: var(--accent);
+  background: var(--accent-light);
+  box-shadow: 0 4px 18px rgba(37,99,235,.1);
+  transform: translateX(3px);
+  text-decoration: none;
+  color: var(--text);
+}
+
+.league-hero-logo {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  flex-shrink: 0;
+  filter: drop-shadow(0 1px 4px rgba(0,0,0,.1));
+}
+
+.league-hero-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1;
+}
+
+.league-hero-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: .2px;
+}
+
+.league-hero-country {
+  font-size: .75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: .6px;
+}
+
+.league-hero-chevron {
+  font-size: 1.4rem;
+  color: var(--accent);
+  flex-shrink: 0;
+  line-height: 1;
+  transition: transform .14s;
+}
+.league-hero-row:hover .league-hero-chevron {
+  transform: translateX(3px);
+}
+
+/* ── How-to Banner ────────────────────────────────────────── */
+.how-to-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: var(--accent-light);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  font-size: .85rem;
+  color: var(--text);
+  line-height: 1.55;
+}
+
+.how-to-icon {
+  font-style: normal;
+  font-size: 1rem;
+  color: var(--accent);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
 /* ── Layout ───────────────────────────────────────────────── */
 .container {
   max-width: 1100px;
