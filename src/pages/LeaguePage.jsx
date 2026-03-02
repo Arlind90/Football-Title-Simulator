@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 import { getLeagueBySlug } from '../config/leagues';
 import Header from '../components/Header';
@@ -8,6 +9,12 @@ import Footer from '../components/Footer';
 export default function LeaguePage() {
   const { slug } = useParams();
   const league = getLeagueBySlug(slug);
+
+  useEffect(() => {
+    if (league) {
+      document.title = league.name;
+    }
+  }, [league]);
 
   if (!league) {
     return <Navigate to="/" replace />;

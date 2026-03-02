@@ -1,9 +1,14 @@
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { LEAGUES } from '../config/leagues';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 export default function HomePage() {
+  useEffect(() => {
+    document.title = 'Title Simulator';
+  }, []);
+
   return (
     <>
       <Header />
