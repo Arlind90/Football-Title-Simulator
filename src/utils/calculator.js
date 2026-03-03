@@ -91,7 +91,14 @@ export function calculateTitle(selectedId, standingsData, remainingFixtures) {
     }
   }
 
-  const byDate = (a, b) => new Date(a.strTimestamp) - new Date(b.strTimestamp);
+  const UNCONFIRMED = ['PST', 'TBD', 'Match Postponed'];
+  const byDate = (a, b) => {
+    const aPost = UNCONFIRMED.includes(a.strStatus);
+    const bPost = UNCONFIRMED.includes(b.strStatus);
+    if (aPost && !bPost) return 1;
+    if (!aPost && bPost) return -1;
+    return new Date(a.strTimestamp) - new Date(b.strTimestamp);
+  };
 
   return {
     selMax, rivBestCase, rivFreeGames,

@@ -11,7 +11,11 @@ export function useSeasonFixtures({ leagueId, season }) {
     setData([]);
     apiFetchV1(`/eventsseason.php?id=${leagueId}&s=${season}`)
       .then(res => {
-        const remaining = (res.events || []).filter(e => e.strStatus === 'Not Started');
+        const remaining = (res.events || []).filter(
+          e => e.strStatus === 'Not Started' || e.strStatus === 'NS' ||
+               e.strStatus === 'PST' || e.strStatus === 'TBD' ||
+               e.strStatus === 'Match Postponed'
+        );
         setData(remaining);
       })
       .catch(err => console.warn('Could not load season fixtures for calculator:', err.message))

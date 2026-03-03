@@ -63,11 +63,15 @@ function GuaranteeBlock({ selected, result }) {
 }
 
 function FixtureItem({ f, isH2H }) {
+  const isPostponed = f.strStatus === 'PST' || f.strStatus === 'TBD' || f.strStatus === 'Match Postponed';
   return (
-    <div className={`calc-fixture-item${isH2H ? ' calc-fixture--h2h' : ''}`}>
+    <div className={`calc-fixture-item${isH2H ? ' calc-fixture--h2h' : ''}${isPostponed ? ' calc-fixture--postponed' : ''}`}>
       <div className="calc-fixture-meta">
         <span className="calc-fixture-round">R{f.intRound}</span>
-        <span className="calc-fixture-date">{formatDate(f.strTimestamp)}</span>
+        {isPostponed
+          ? <span className="calc-fixture-tbc">TBC</span>
+          : <span className="calc-fixture-date">{formatDate(f.strTimestamp)}</span>
+        }
         {isH2H && <span className="calc-fixture-h2h-badge">H2H</span>}
       </div>
       <div className="calc-fixture-teams">
