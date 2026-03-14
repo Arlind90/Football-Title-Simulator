@@ -1,6 +1,15 @@
-export const CURRENT_VERSION = '0.2';
+export const CURRENT_VERSION = '0.3';
 
 export const CHANGELOG = [
+  {
+    version: '0.3',
+    date: 'Mar 2026',
+    changes: [
+      'Standings now reconcile against live fixture results — matches played today are reflected immediately even when the standings API lags behind',
+      'Matches played (MP), W/D/L, GF, GA, GD, Pts and Form badges all update from fixture data when a discrepancy is detected',
+      'Title Race Calculator automatically uses the corrected standings, keeping max-points and verdict accurate',
+    ],
+  },
   {
     version: '0.2',
     date: 'Mar 2026',

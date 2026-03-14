@@ -1,13 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
 import { useStandings } from '../hooks/useStandings';
 import { useSeasonFixtures } from '../hooks/useSeasonFixtures';
-import { calculateTitle } from '../utils/calculator';
+import { calculateTitle, reconcileStandings } from '../utils/calculator';
 import StandingsTable from './StandingsTable';
 import ChampionCalc from './ChampionCalc';
 
 export default function StandingsSection({ league }) {
   const { data: standings, loading, error } = useStandings({ leagueId: league.id, season: league.season });
-  const { data: seasonFixtures, loading: seasonLoading } = useSeasonFixtures({ leagueId: league.id, season: league.season });
+  const { data: seasonFixtures, finished: finishedFixtures, loading: seasonLoading } = useSeasonFixtures({ leagueId: league.id, season: league.season });
   const [selectedTeamId, setSelectedTeamId] = useState(null);
   const calcRef = useRef(null);
 
@@ -30,9 +30,11 @@ export default function StandingsSection({ league }) {
     setSelectedTeamId(null);
   }, [league.id]);
 
-  const selected = standings.find(t => t.idTeam === selectedTeamId) || null;
+  const reconciledStandings = reconcileStandings(standings, finishedFixtures);
+
+  const selected = reconciledStandings.find(t => t.idTeam === selectedTeamId) || null;
   const result   = selected && !seasonLoading && seasonFixtures.length > 0
-    ? calculateTitle(selectedTeamId, standings, seasonFixtures)
+    ? calculateTitle(selectedTeamId, reconciledStandings, seasonFixtures)
     : null;
 
   const showCalc = selectedTeamId !== null;
@@ -60,7 +62,7 @@ export default function StandingsSection({ league }) {
           </div>
 
           <StandingsTable
-            standings={standings}
+            standings={reconciledStandings}
             selectedTeamId={selectedTeamId}
             onSelectTeam={handleSelectTeam}
           />
