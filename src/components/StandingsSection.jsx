@@ -34,7 +34,7 @@ export default function StandingsSection({ league }) {
 
   const selected = reconciledStandings.find(t => t.idTeam === selectedTeamId) || null;
   const result   = selected && !seasonLoading && seasonFixtures.length > 0
-    ? calculateTitle(selectedTeamId, reconciledStandings, seasonFixtures)
+    ? calculateTitle(selectedTeamId, reconciledStandings, seasonFixtures, { tiebreaker: league.tiebreaker })
     : null;
 
   const showCalc = selectedTeamId !== null;

@@ -1,6 +1,15 @@
-export const CURRENT_VERSION = '0.3';
+export const CURRENT_VERSION = '0.4';
 
 export const CHANGELOG = [
+  {
+    version: '0.4',
+    date: 'May 2026',
+    changes: [
+      'Serie A Title Race Calculator now follows the league rule: level on points means a one-off championship final, not goal difference',
+      'Serie A verdicts, scenario copy, and title-guarantee math treat a points tie as a playoff path instead of a GD win or loss',
+      'Chasing teams in Serie A no longer get a false cannot-win verdict when the leader is already level with your maximum possible points — a tie on points can still mean a playoff',
+    ],
+  },
   {
     version: '0.3',
     date: 'Mar 2026',

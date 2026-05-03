@@ -165,12 +165,19 @@ export default function ChampionCalc({ selected, result, seasonLoading, onClose 
       icon: '~',
       text: `Points tied at ${result.selMax} in rival's best case — loses on Goal Difference (${gdStr(result.selGD)} vs ${result.rival.strTeam}'s ${gdStr(result.rivGD)}). Rival needs to drop 1 more point for ${selected.strTeam} to win outright.`,
     },
+    playoff: {
+      cls:  'calc-verdict--gd',
+      icon: '~',
+      text: `Points tied at ${result.selMax} pts in rival's best case — title decided by a one-off final match (Serie A rule)`,
+    },
     possible: {
       cls:  'calc-verdict--possible',
       icon: '✓',
-      text: result.canWinOnGD
+      text: result.canWinOnGD && !result.isPlayoffTie
         ? `Mathematically possible — ${selected.strTeam} reaches ${result.selMax} pts; ${result.rival.strTeam} can tie on points but ${selected.strTeam} wins on GD (${gdStr(result.selGD)} vs ${gdStr(result.rivGD)}), so rival must score ≤ ${result.rivPointsNeeded} more from ${result.rivRemaining} games`
-        : `Mathematically possible — ${selected.strTeam} reaches ${result.selMax} pts; ${result.rival.strTeam} must finish with ≤ ${result.rivPointsAllowed} pts (score ≤ ${result.rivPointsNeeded} more from their ${result.rivRemaining} remaining games)`,
+        : result.isPlayoffTie
+          ? `Mathematically possible — ${selected.strTeam} reaches ${result.selMax} pts; ${result.rival.strTeam} must finish with ≤ ${result.rivPointsAllowed} pts (a points tie goes to a Serie A playoff; score ≤ ${result.rivPointsNeeded} more from their ${result.rivRemaining} remaining games)`
+          : `Mathematically possible — ${selected.strTeam} reaches ${result.selMax} pts; ${result.rival.strTeam} must finish with ≤ ${result.rivPointsAllowed} pts (score ≤ ${result.rivPointsNeeded} more from their ${result.rivRemaining} remaining games)`,
     },
   };
 
@@ -178,8 +185,16 @@ export default function ChampionCalc({ selected, result, seasonLoading, onClose 
 
   const scenarioNote =
     result.verdict === 'possible'
-      ? `${selected.strTeam} wins all ${result.selRemaining} remaining games · ${result.rival.strTeam} must score ≤ ${result.rivPointsNeeded} more pts from ${result.rivRemaining} games${result.canWinOnGD ? ` (GD tiebreaker favours ${selected.strTeam})` : ''}`
-      : `${selected.strTeam} wins all ${result.selRemaining} remaining games · ${result.rival.strTeam} wins all except the direct clash`;
+      ? `${selected.strTeam} wins all ${result.selRemaining} remaining games · ${result.rival.strTeam} must score ≤ ${result.rivPointsNeeded} more pts from ${result.rivRemaining} games${
+          result.isPlayoffTie
+            ? ' (a points tie goes to a Serie A playoff)'
+            : result.canWinOnGD
+              ? ` (GD tiebreaker favours ${selected.strTeam})`
+              : ''
+        }`
+      : result.verdict === 'playoff'
+        ? `${selected.strTeam} wins all ${result.selRemaining} remaining games · ${result.rival.strTeam} wins all except the direct clash — a points tie means a Serie A championship playoff`
+        : `${selected.strTeam} wins all ${result.selRemaining} remaining games · ${result.rival.strTeam} wins all except the direct clash`;
 
   const rivBestWins  = result.rivFreeGames;
   const rivGamesNote = result.hasDirectClash
@@ -256,7 +271,7 @@ export default function ChampionCalc({ selected, result, seasonLoading, onClose 
               </div>
               <div className="calc-pts-row">
                 <span className="calc-pts-label">
-                  Max allowed{result.canWinOnGD ? ' (tie OK — GD wins)' : ''}
+                  Max allowed{result.canWinOnGD && !result.isPlayoffTie ? ' (tie OK — GD wins)' : ''}
                 </span>
                 <span>{result.rivPointsAllowed} pts</span>
               </div>

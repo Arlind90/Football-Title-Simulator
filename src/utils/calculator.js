@@ -88,9 +88,11 @@ export function computeRivalBreakdown(pointsNeeded, freeGames, hasDirectClash) {
   return { wins, draws, losses: totalLosses, totalGames, ptsScored: wins * 3 + draws };
 }
 
-export function calculateTitle(selectedId, standingsData, remainingFixtures) {
+export function calculateTitle(selectedId, standingsData, remainingFixtures, options = {}) {
   const selected = standingsData.find(t => t.idTeam === selectedId);
   if (!selected) return null;
+
+  const isPlayoffTie = options.tiebreaker === 'playoff';
 
   const selectedRank = parseInt(selected.intRank, 10);
   const rivalRank    = selectedRank === 1 ? 2 : 1;
@@ -124,15 +126,22 @@ export function calculateTitle(selectedId, standingsData, remainingFixtures) {
 
   let verdict, rivPointsAllowed, rivPointsNeeded, rivBreakdown;
 
-  if (rivCurrentPts >= selMax) {
+  // Strict inequality: rivCurrentPts === selMax still allows a points tie (chaser
+  // wins out; leader takes no more points). Serie A then decides the title in a
+  // playoff rather than "cannot win".
+  if (rivCurrentPts > selMax) {
     verdict = 'impossible';
   } else if (rivBestCase < selMax) {
     verdict = 'win';
   } else if (rivBestCase === selMax) {
-    verdict = canWinOnGD ? 'gd-win' : 'gd-lose';
+    verdict = isPlayoffTie ? 'playoff' : (canWinOnGD ? 'gd-win' : 'gd-lose');
   } else {
-    verdict          = 'possible';
-    rivPointsAllowed = canWinOnGD ? selMax : selMax - 1;
+    verdict = 'possible';
+    // Tie at selMax: OK on GD (non-playoff), or playoff (Serie A). Otherwise rival
+    // must finish strictly below selMax. Using selMax for playoff avoids negative
+    // rivPointsNeeded when rivCurrentPts === selMax (leader already level with chaser max).
+    const tieAtSelMaxOk = (canWinOnGD && !isPlayoffTie) || isPlayoffTie;
+    rivPointsAllowed = tieAtSelMaxOk ? selMax : selMax - 1;
     rivPointsNeeded  = rivPointsAllowed - rivCurrentPts;
     rivBreakdown     = computeRivalBreakdown(rivPointsNeeded, rivFreeGames, hasDirectClash);
   }
@@ -140,7 +149,8 @@ export function calculateTitle(selectedId, standingsData, remainingFixtures) {
   let guaranteeInfo = null;
   if (selectedRank === 1) {
     const rivAbsoluteMax      = rivCurrentPts + rivRemaining.length * 3;
-    const guaranteeTotal      = canWinOnGD ? rivAbsoluteMax : rivAbsoluteMax + 1;
+    const gdDecides           = canWinOnGD && !isPlayoffTie;
+    const guaranteeTotal      = gdDecides ? rivAbsoluteMax : rivAbsoluteMax + 1;
     const guaranteeAdditional = guaranteeTotal - selCurrentPts;
 
     if (guaranteeAdditional <= 0) {
@@ -158,7 +168,7 @@ export function calculateTitle(selectedId, standingsData, remainingFixtures) {
         gWins,
         gDraws,
         rivAbsoluteMax,
-        gdDecides: canWinOnGD,
+        gdDecides,
       };
     }
   }
@@ -185,5 +195,6 @@ export function calculateTitle(selectedId, standingsData, remainingFixtures) {
     canWinOnGD,
     rivPointsAllowed, rivPointsNeeded, rivBreakdown,
     guaranteeInfo,
+    isPlayoffTie,
   };
 }

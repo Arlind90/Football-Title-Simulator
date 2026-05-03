@@ -1,11 +1,12 @@
 export const LEAGUES = [
   {
-    slug:    'serie-a',
-    name:    'Serie A',
-    country: 'Italy',
-    id:      4332,
-    season:  '2025-2026',
-    logoUrl: 'https://media.api-sports.io/football/leagues/135.png',
+    slug:        'serie-a',
+    name:        'Serie A',
+    country:     'Italy',
+    id:          4332,
+    season:      '2025-2026',
+    logoUrl:     'https://media.api-sports.io/football/leagues/135.png',
+    tiebreaker:  'playoff',
   },
   {
     slug:    'premier-league',
